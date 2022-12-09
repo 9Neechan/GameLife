@@ -2,23 +2,23 @@ import time
 import pygame
 import numpy as np
 
-COLOR_BG = (10, 10, 10)
+COLOR_BG = (255, 255, 255)
 COLOR_GRID = (40, 40, 40)
 COLOR_DIE_NEXT = (170, 170, 170)
-COLOR_ALIVE_NEXT = (255, 255, 255)
+COLOR_ALIVE_NEXT = (10, 10, 10)
 
 
 # фунуция, содержащая в себе главную логику раскрашивания клеток
 def update(screen, cells, size, with_progress=False):
+    # создаем нулевую матрицу - игровое поле
     update_cells = np.zeros((cells.shape[0], cells.shape[1]))
 
     for row, col in np.ndindex(cells.shape):
         # кол-во живых клеток
-        alive = np.sum(cells[row - 1:row + 2, col - 1:col + 2]) - cells[row, col]
+        alive = np.sum(cells[row-1:row+2, col-1:col+2]) - cells[row, col]
         # красим клетки в зависмотсти от их состояния
         color = COLOR_BG if cells[row, col] == 0 else COLOR_ALIVE_NEXT
 
-        # реализуем правила игры
         if cells[row, col] == 1:
             if alive < 2 or alive > 3:
                 if with_progress:
@@ -33,7 +33,7 @@ def update(screen, cells, size, with_progress=False):
                 if with_progress:
                     color = COLOR_ALIVE_NEXT
 
-        # раскрашиваем клетку в нужный цвет
+        # выводим на экран нужный цвет клетки
         pygame.draw.rect(screen, color, (col * size, row * size, size - 1, size - 1))
 
     return update_cells
@@ -124,3 +124,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+99
